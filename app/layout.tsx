@@ -1,15 +1,9 @@
+"use client";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
-
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
-
-export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
-};
+import { Box, CssBaseline, CssVarsProvider } from "@mui/joy";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
 
 export default function RootLayout({
   children,
@@ -19,9 +13,34 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
-          {children}
-        </main>
+        <CssVarsProvider disableTransitionOnChange>
+          <CssBaseline />
+          <Box sx={{ display: "flex", minHeight: "100dvh" }}>
+            <Header />
+            <Sidebar />
+            <Box
+              component="main"
+              className="MainContent"
+              sx={{
+                px: { xs: 2, md: 6 },
+                pt: {
+                  xs: "calc(12px + var(--Header-height))",
+                  sm: "calc(12px + var(--Header-height))",
+                  md: 3,
+                },
+                pb: { xs: 2, sm: 2, md: 3 },
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                minWidth: 0,
+                height: "100dvh",
+                gap: 1,
+              }}
+            >
+              {children}
+            </Box>
+          </Box>
+        </CssVarsProvider>
       </body>
     </html>
   );
